@@ -27,6 +27,7 @@ module.exports = function(context, cb) {
   }else{
     var durationMs = 0;
     var goalAchieved = false;
+    var activeDay = moment().add(-1,'days').format('DD');
 
     // Check that we have timers
     if (timeEntries !== null && timeEntries.length > 0){
@@ -35,7 +36,7 @@ module.exports = function(context, cb) {
       timeEntries.forEach(function(TimedActivity){
 
         // Check if it is a goal project timer
-        if (TimedActivity.pid == context.secrets.TOGGL_PROJECT_ID){
+        if (TimedActivity.pid == context.secrets.TOGGL_PROJECT_ID && moment(TimedActivity.stop).format('DD') === activeDay){
           // Got one
           durationMs = durationMs + TimedActivity.duration;
         }
